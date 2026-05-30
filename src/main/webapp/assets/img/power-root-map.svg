@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" role="img" aria-label="Mapa de aprendizaje de potencias y raices">
+  <rect width="900" height="560" rx="18" fill="#ffffff"/>
+  <rect x="40" y="40" width="820" height="480" rx="18" fill="#eef8f7" stroke="#dbe6ea" stroke-width="3"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="80" y="105" font-size="36" font-weight="800" fill="#17212b">Mapa de aprendizaje</text>
+    <g transform="translate(80 160)">
+      <rect width="210" height="160" rx="8" fill="#0f766e"/>
+      <text x="28" y="56" fill="#fff" font-size="30" font-weight="800">Potencias</text>
+      <text x="28" y="102" fill="#d9fff5" font-size="24">a x a x a</text>
+    </g>
+    <g transform="translate(345 160)">
+      <rect width="210" height="160" rx="8" fill="#f59e0b"/>
+      <text x="28" y="56" fill="#17212b" font-size="30" font-weight="800">Raices</text>
+      <text x="28" y="102" fill="#3b2b0b" font-size="24">operacion inversa</text>
+    </g>
+    <g transform="translate(610 160)">
+      <rect width="210" height="160" rx="8" fill="#5b5bd6"/>
+      <text x="28" y="56" fill="#fff" font-size="30" font-weight="800">Radicales</text>
+      <text x="28" y="102" fill="#e8e8ff" font-size="24">x^(1/n)</text>
+    </g>
+    <path d="M290 240h55M555 240h55" stroke="#17212b" stroke-width="8" stroke-linecap="round"/>
+    <text x="145" y="420" fill="#17212b" font-size="32" font-weight="800">Base</text>
+    <text x="365" y="420" fill="#17212b" font-size="32" font-weight="800">Exponente</text>
+    <text x="640" y="420" fill="#17212b" font-size="32" font-weight="800">Resultado</text>
+    <circle cx="110" cy="410" r="18" fill="#e85d5a"/>
+    <circle cx="330" cy="410" r="18" fill="#5eead4"/>
+    <circle cx="605" cy="410" r="18" fill="#f59e0b"/>
+  </g>
+</svg>

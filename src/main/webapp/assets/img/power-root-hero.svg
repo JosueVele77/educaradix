@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 520" role="img" aria-label="Potencias y raices">
+  <rect width="760" height="520" rx="24" fill="#102329"/>
+  <g opacity=".18" stroke="#b9f4e7">
+    <path d="M80 420h600M80 340h600M80 260h600M80 180h600M80 100h600"/>
+    <path d="M140 60v400M260 60v400M380 60v400M500 60v400M620 60v400"/>
+  </g>
+  <path d="M96 390c90-4 140-32 196-112 35-50 58-105 95-106 50-1 64 94 111 102 43 7 71-57 111-96" fill="none" stroke="#5eead4" stroke-width="16" stroke-linecap="round"/>
+  <path d="M130 166h70l43 178 70-244 44 134h82" fill="none" stroke="#f59e0b" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <g font-family="Arial, Helvetica, sans-serif" font-weight="800">
+    <text x="90" y="90" fill="#ffffff" font-size="48">2<tspan baseline-shift="super" font-size="28">5</tspan> = 32</text>
+    <text x="475" y="120" fill="#ffffff" font-size="44">√144 = 12</text>
+    <text x="440" y="410" fill="#ffffff" font-size="38">27<tspan baseline-shift="super" font-size="24">1/3</tspan> = 3</text>
+  </g>
+  <circle cx="296" cy="278" r="14" fill="#e85d5a"/>
+  <circle cx="498" cy="274" r="14" fill="#5b5bd6"/>
+</svg>

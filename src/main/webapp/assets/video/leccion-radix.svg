@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" role="img" aria-label="Animacion de potencias y raices">
+  <rect width="900" height="360" fill="#102329"/>
+  <g font-family="Arial, Helvetica, sans-serif" font-weight="800">
+    <text x="45" y="70" fill="#ffffff" font-size="38">Leccion visual: potencia y raiz</text>
+    <text x="72" y="280" fill="#d9fff5" font-size="26">2 x 2 x 2 x 2 x 2 = 32</text>
+    <text x="548" y="280" fill="#fef3c7" font-size="26">√144 = 12</text>
+  </g>
+  <g>
+    <circle cx="130" cy="170" r="28" fill="#5eead4">
+      <animate attributeName="r" values="18;34;18" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="230" cy="170" r="28" fill="#5eead4">
+      <animate attributeName="r" values="18;34;18" dur="2.4s" begin=".2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="330" cy="170" r="28" fill="#5eead4">
+      <animate attributeName="r" values="18;34;18" dur="2.4s" begin=".4s" repeatCount="indefinite"/>
+    </circle>
+    <path d="M410 170h120" stroke="#e85d5a" stroke-width="12" stroke-linecap="round">
+      <animate attributeName="stroke-width" values="6;18;6" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M590 190h70l35-94 50 164 36-91h64" fill="none" stroke="#f59e0b" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+      <animate attributeName="stroke-dasharray" values="0 520;260 260;520 0" dur="3s" repeatCount="indefinite"/>
+    </path>
+  </g>
+</svg>
