@@ -19,7 +19,7 @@ import java.util.List;
 
 @WebServlet("/estudiante/*")
 public class EstudianteController extends HttpServlet {
-    private static final int TOTAL_MISIONES = 6;
+    private static final int TOTAL_MISIONES = 7;
     private static final String AVATAR_BASE = "https://images.avataranimals.com/animals/transparent/";
     private final ActividadDAO actividadDAO = new ActividadDAO();
     private final UsuarioDAO usuarioDAO = new UsuarioDAO();
@@ -128,6 +128,9 @@ public class EstudianteController extends HttpServlet {
             return 100;
         }
         if ("torre".equals(categoria) && ("1000".equals(limpia) || "10^3=1000".equals(limpia))) {
+            return 100;
+        }
+        if ("laguna".equals(categoria) && ("2".equals(limpia) || "2*2*2=8".equals(limpia))) {
             return 100;
         }
         return 60;

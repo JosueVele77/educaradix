@@ -1,3 +1,7 @@
+/* ============================================================
+   Variables globales y base visual
+   Define la paleta, tipografia base y comportamiento general.
+   ============================================================ */
 :root {
     --ink: #17212b;
     --muted: #5f6f7b;
@@ -25,6 +29,11 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+/* ============================================================
+   Barra de navegacion y cuenta de usuario
+   Incluye logo, enlaces, avatar del usuario, menu desplegable y
+   boton de modo claro/oscuro.
+   ============================================================ */
 .radix-navbar {
     background:
         linear-gradient(90deg, rgba(19, 37, 43, 0.98), rgba(18, 53, 58, 0.98)),
@@ -63,6 +72,33 @@ body {
 
 .navbar-toggler {
     background: #ffffff;
+}
+
+.theme-toggle {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    color: #ffffff;
+    display: inline-flex;
+    font-weight: 800;
+    gap: 8px;
+    min-height: 40px;
+    padding: 8px 12px;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus {
+    background: rgba(255, 255, 255, 0.16);
+    color: #d9fff5;
+}
+
+.theme-toggle-icon {
+    background: linear-gradient(135deg, #fef3c7 0 50%, #102329 50% 100%);
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    height: 18px;
+    width: 18px;
 }
 
 .account-toggle {
@@ -135,6 +171,11 @@ body {
     --bs-btn-hover-border-color: var(--teal-dark);
 }
 
+/* ============================================================
+   Pagina de inicio y tarjetas compartidas
+   Estilos reutilizables para heroes, tarjetas, paneles y bandas
+   de contenido comunes en varias vistas.
+   ============================================================ */
 .hero-radix {
     padding: 72px 0 48px;
     background:
@@ -169,6 +210,50 @@ body {
     border: 1px solid var(--line);
     border-radius: 8px;
     box-shadow: 0 16px 36px rgba(21, 36, 43, 0.08);
+    overflow: hidden;
+    position: relative;
+}
+
+.formula-board > *,
+.auth-panel > *,
+.data-panel > *,
+.feature-card > *,
+.category-card > *,
+.metric-card > *,
+.media-strip > *,
+.profile-summary > *,
+.achievement-card > *,
+.game-card > *,
+.mission-status > *,
+.student-progress > * {
+    position: relative;
+    z-index: 1;
+}
+
+.formula-board::after,
+.auth-panel::after,
+.data-panel::after,
+.feature-card::after,
+.category-card::after,
+.metric-card::before,
+.media-strip::after,
+.profile-summary::after,
+.achievement-card::after,
+.mission-status::after,
+.student-progress::after {
+    animation: bubblesUp 13s linear infinite;
+    background:
+        radial-gradient(circle at 12% 100%, rgba(94, 234, 212, 0.18) 0 9px, transparent 10px),
+        radial-gradient(circle at 38% 112%, rgba(245, 158, 11, 0.14) 0 7px, transparent 8px),
+        radial-gradient(circle at 72% 108%, rgba(232, 93, 90, 0.12) 0 8px, transparent 9px),
+        radial-gradient(circle at 88% 118%, rgba(91, 91, 214, 0.12) 0 6px, transparent 7px);
+    background-repeat: no-repeat;
+    content: "";
+    inset: 0;
+    opacity: 0.72;
+    pointer-events: none;
+    position: absolute;
+    z-index: 0;
 }
 
 .formula-board {
@@ -187,6 +272,11 @@ body {
     padding: 24px;
 }
 
+/* ============================================================
+   Autenticacion, registro y validacion de formularios
+   Incluye login, crear estudiante, estados verde/rojo y boton
+   para mostrar/ocultar contrasena.
+   ============================================================ */
 .feature-card h2,
 .category-card h2 {
     font-size: 1.35rem;
@@ -207,11 +297,107 @@ body {
         var(--paper);
 }
 
+.register-shell {
+    background:
+        radial-gradient(circle at 12% 18%, rgba(94, 234, 212, 0.18), transparent 28%),
+        radial-gradient(circle at 88% 12%, rgba(245, 158, 11, 0.16), transparent 24%);
+}
+
+.register-panel {
+    background:
+        linear-gradient(145deg, rgba(217, 255, 245, 0.82), rgba(254, 243, 199, 0.62)),
+        #ffffff;
+    border-top: 6px solid var(--teal);
+}
+
 .auth-panel h1 {
     font-size: 2rem;
     font-weight: 800;
 }
 
+.password-shell {
+    position: relative;
+}
+
+.password-shell .form-control {
+    padding-right: 48px;
+}
+
+.password-toggle {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    display: inline-flex;
+    height: 38px;
+    justify-content: center;
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+}
+
+.password-toggle span {
+    border: 2px solid var(--muted);
+    border-radius: 70% 35%;
+    display: block;
+    height: 16px;
+    position: relative;
+    transform: rotate(-12deg);
+    width: 24px;
+}
+
+.password-toggle span::after {
+    background: var(--muted);
+    border-radius: 50%;
+    content: "";
+    height: 7px;
+    left: 7px;
+    position: absolute;
+    top: 3px;
+    width: 7px;
+}
+
+.password-toggle.is-visible span {
+    border-color: var(--teal);
+}
+
+.password-toggle.is-visible span::after {
+    background: var(--teal);
+}
+
+.form-control.is-valid-field {
+    border-color: #22c55e;
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.14);
+}
+
+.form-control.is-invalid-field {
+    border-color: #e85d5a;
+    box-shadow: 0 0 0 4px rgba(232, 93, 90, 0.14);
+}
+
+.register-benefits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.register-benefits span {
+    background: #ecfeff;
+    border: 1px solid #99f6e4;
+    border-radius: 999px;
+    color: var(--teal-dark);
+    font-size: 0.78rem;
+    font-weight: 850;
+    padding: 7px 10px;
+}
+
+/* ============================================================
+   Encabezados de pagina y perfil del estudiante
+   Maneja tarjeta de perfil, avatar grande, progreso, logros y
+   notificaciones de logros desbloqueados.
+   ============================================================ */
 .data-panel .table {
     margin-bottom: 0;
 }
@@ -222,6 +408,71 @@ body {
     gap: 16px;
     justify-content: space-between;
     margin-bottom: 16px;
+}
+
+/* ========================================
+   PERFIL DE ESTUDIANTE
+   ======================================== */
+.profile-page {
+    position: relative;
+}
+
+.achievement-corner {
+    background:
+        linear-gradient(135deg, rgba(254, 243, 199, 0.9), rgba(217, 255, 245, 0.9)),
+        #ffffff;
+    border: 2px solid rgba(15, 118, 110, 0.22);
+    border-radius: 8px;
+    box-shadow: 0 18px 36px rgba(21, 36, 43, 0.12);
+    display: grid;
+    gap: 8px;
+    max-width: 260px;
+    padding: 12px;
+    position: absolute;
+    right: 12px;
+    top: 98px;
+    z-index: 2;
+}
+
+.achievement-toast {
+    animation: achievementToastIn 0.34s ease, achievementToastOut 0.4s ease 5.6s forwards;
+}
+
+.achievement-corner strong {
+    color: var(--teal-dark);
+    font-size: 0.82rem;
+    text-transform: uppercase;
+}
+
+.achievement-corner span {
+    color: var(--muted);
+    font-size: 0.84rem;
+}
+
+.corner-achievement {
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: flex;
+    font-size: 0.85rem;
+    font-weight: 800;
+    gap: 8px;
+    padding: 7px 8px;
+}
+
+.corner-achievement span {
+    align-items: center;
+    background: var(--teal);
+    border-radius: 50%;
+    color: #ffffff;
+    display: inline-flex;
+    flex: 0 0 28px;
+    font-size: 0.72rem;
+    font-weight: 850;
+    height: 28px;
+    justify-content: center;
+    width: 28px;
 }
 
 .profile-summary {
@@ -252,7 +503,7 @@ body {
     min-height: 104px;
     min-width: 104px;
     overflow: hidden;
-    padding: 8px;
+    padding: 10px;
     width: 104px;
 }
 
@@ -260,11 +511,11 @@ body {
 .avatar-frame img,
 .profile-summary img[src*="avataranimals"] {
     display: block;
-    height: 100% !important;
-    max-height: 88px;
-    max-width: 88px;
+    height: 82px !important;
+    max-height: 82px;
+    max-width: 82px;
     object-fit: contain;
-    width: 100% !important;
+    width: 82px !important;
 }
 
 .profile-summary h2 {
@@ -290,16 +541,198 @@ body {
     background: #dce8eb;
     height: 12px;
     margin: 10px 0 8px;
+    overflow: hidden;
 }
 
 .student-progress .progress-bar {
     background: linear-gradient(90deg, var(--teal), var(--amber), var(--coral));
 }
 
+.progress-bar-animated-radix {
+    animation: progressPulse 1.8s ease-in-out infinite, progressStripes 1.2s linear infinite;
+    background-image:
+        linear-gradient(90deg, var(--teal), var(--amber), var(--coral)),
+        repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.24) 0 10px, transparent 10px 20px);
+    background-size: 100% 100%, 28px 28px;
+    box-shadow: 0 0 14px rgba(15, 118, 110, 0.26);
+}
+
+.achievements-panel {
+    background:
+        linear-gradient(135deg, rgba(217, 255, 245, 0.76), rgba(254, 243, 199, 0.5)),
+        #ffffff;
+}
+
+.achievements-head {
+    align-items: center;
+    display: flex;
+    gap: 14px;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.achievements-head > span {
+    background: #102329;
+    border-radius: 999px;
+    color: #ffffff;
+    font-size: 0.86rem;
+    font-weight: 850;
+    padding: 8px 12px;
+    white-space: nowrap;
+}
+
+.achievement-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.achievement-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: 54px 1fr;
+    min-height: 190px;
+    padding: 16px;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.achievement-card:hover {
+    box-shadow: 0 16px 34px rgba(21, 36, 43, 0.1);
+    transform: translateY(-3px);
+}
+
+.achievement-card.is-unlocked {
+    border-color: rgba(34, 197, 94, 0.55);
+    box-shadow: inset 0 0 0 2px rgba(34, 197, 94, 0.08);
+}
+
+.achievement-medal {
+    align-items: center;
+    background: #f7fbfc;
+    border: 4px solid #2b2d2f;
+    border-radius: 50%;
+    display: flex;
+    height: 58px;
+    justify-content: center;
+    position: relative;
+    width: 52px;
+}
+
+.achievement-medal::before,
+.achievement-medal::after {
+    background: #9ca3af;
+    border: 3px solid #2b2d2f;
+    bottom: -34px;
+    content: "";
+    height: 44px;
+    position: absolute;
+    width: 24px;
+    z-index: 0;
+}
+
+.achievement-medal::before {
+    left: 7px;
+    transform: rotate(22deg);
+}
+
+.achievement-medal::after {
+    right: 7px;
+    transform: rotate(-22deg);
+}
+
+.achievement-medal span {
+    align-items: center;
+    background: #a3a3a3;
+    border: 4px solid #2b2d2f;
+    clip-path: polygon(50% 4%, 62% 34%, 95% 36%, 69% 56%, 78% 92%, 50% 70%, 22% 92%, 31% 56%, 5% 36%, 38% 34%);
+    color: #102329;
+    display: flex;
+    font-size: 0.72rem;
+    font-weight: 850;
+    height: 46px;
+    justify-content: center;
+    position: relative;
+    width: 46px;
+    z-index: 1;
+}
+
+.achievement-content h3 {
+    font-size: 1.08rem;
+    font-weight: 850;
+    margin: 0;
+}
+
+.achievement-content p {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin: 8px 0;
+}
+
+.achievement-title-row {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+}
+
+.achievement-badge {
+    background: #dcfce7;
+    border-radius: 999px;
+    color: #166534;
+    flex: 0 0 auto;
+    font-size: 0.72rem;
+    font-weight: 850;
+    padding: 5px 8px;
+}
+
+.achievement-badge.muted {
+    background: #eef3f6;
+    color: var(--muted);
+}
+
+.achievement-how {
+    background: #f7fbfc;
+    border: 1px dashed #b8cfd5;
+    border-radius: 8px;
+    display: grid;
+    gap: 4px;
+    padding: 10px;
+}
+
+.achievement-how strong {
+    color: var(--teal-dark);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+}
+
+.achievement-how span {
+    color: var(--ink);
+    font-size: 0.88rem;
+}
+
+.achievement-progress {
+    margin-top: 10px;
+}
+
+.achievement-progress .progress {
+    background: #dce8eb;
+    height: 10px;
+    overflow: hidden;
+}
+
+/* ============================================================
+   Selector de avatar
+   Botones circulares para elegir avatar sin que se salga del panel.
+   ============================================================ */
 .avatar-picker {
     display: grid;
-    gap: 10px;
-    grid-template-columns: repeat(6, 48px);
+    gap: 8px;
+    grid-template-columns: repeat(auto-fit, 42px);
+    justify-content: start;
     max-width: 100%;
 }
 
@@ -319,25 +752,25 @@ body {
     border: 2px solid var(--line);
     border-radius: 50%;
     display: flex;
-    height: 48px;
+    height: 42px;
     justify-content: center;
-    max-height: 48px;
-    max-width: 48px;
-    min-height: 48px;
-    min-width: 48px;
+    max-height: 42px;
+    max-width: 42px;
+    min-height: 42px;
+    min-width: 42px;
     overflow: hidden;
-    padding: 4px;
+    padding: 5px;
     transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    width: 48px;
+    width: 42px;
 }
 
 .avatar-option img {
     display: block;
-    height: 100% !important;
-    max-height: 38px;
-    max-width: 38px;
+    height: 28px !important;
+    max-height: 28px;
+    max-width: 28px;
     object-fit: contain;
-    width: 100% !important;
+    width: 28px !important;
 }
 
 .avatar-option input:checked + span {
@@ -346,6 +779,11 @@ body {
     transform: translateY(-2px);
 }
 
+/* ============================================================
+   Panel administrativo
+   Metricas, tablas, bitacora, progreso por estudiante y botones
+   iconicos de actualizar/bloquear.
+   ============================================================ */
 .metric-card {
     padding: 18px;
     min-height: 110px;
@@ -369,6 +807,289 @@ body {
     max-width: 220px;
 }
 
+.user-action-buttons {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+}
+
+.icon-action {
+    align-items: center;
+    background: #ffffff;
+    border: 2px solid var(--line);
+    border-radius: 50%;
+    display: inline-flex;
+    height: 30px;
+    justify-content: center;
+    padding: 0;
+    transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+    width: 30px;
+}
+
+.icon-action:hover,
+.icon-action:focus {
+    box-shadow: 0 8px 18px rgba(21, 36, 43, 0.16);
+    transform: translateY(-2px);
+}
+
+.icon-action span {
+    display: block;
+    position: relative;
+}
+
+.icon-update {
+    background: var(--teal);
+    border-color: var(--teal);
+}
+
+.icon-update span {
+    border: 2px solid #ffffff;
+    border-left-color: transparent;
+    border-radius: 50%;
+    height: 14px;
+    width: 14px;
+}
+
+.icon-update span::after {
+    border-left: 5px solid #ffffff;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    content: "";
+    position: absolute;
+    right: -2px;
+    top: -3px;
+    transform: rotate(-28deg);
+}
+
+.icon-block,
+.icon-unblock {
+    background: #ffffff;
+}
+
+.icon-block {
+    border-color: var(--coral);
+}
+
+.icon-unblock {
+    border-color: #22c55e;
+}
+
+.icon-block span,
+.icon-unblock span {
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    color: var(--coral);
+    height: 15px;
+    width: 15px;
+}
+
+.icon-unblock span {
+    color: #16a34a;
+}
+
+.icon-block span::after {
+    background: currentColor;
+    content: "";
+    height: 2px;
+    left: 2px;
+    position: absolute;
+    top: 5px;
+    transform: rotate(45deg);
+    width: 9px;
+}
+
+.icon-unblock span::after {
+    border-bottom: 2px solid currentColor;
+    border-left: 2px solid currentColor;
+    content: "";
+    height: 6px;
+    left: 3px;
+    position: absolute;
+    top: 3px;
+    transform: rotate(-45deg);
+    width: 9px;
+}
+
+.admin-progress-cell {
+    min-width: 150px;
+}
+
+.admin-progress-cell span {
+    color: var(--teal-dark);
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 850;
+    margin-bottom: 5px;
+}
+
+.admin-progress-cell .progress {
+    background: #dce8eb;
+    height: 9px;
+    overflow: hidden;
+}
+
+.admin-shell {
+    position: relative;
+}
+
+.admin-title-row {
+    align-items: center;
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.admin-panel-accent {
+    overflow: hidden;
+    position: relative;
+}
+
+.admin-panel-accent::before {
+    background: linear-gradient(90deg, var(--teal), var(--amber), var(--coral), var(--violet));
+    content: "";
+    height: 5px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.admin-soft-badge {
+    background: #ecfeff;
+    border: 1px solid #99f6e4;
+    border-radius: 999px;
+    color: var(--teal-dark);
+    font-size: 0.78rem;
+    font-weight: 850;
+    padding: 7px 10px;
+}
+
+.metric-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.metric-card::after {
+    border-radius: 50%;
+    content: "";
+    height: 72px;
+    opacity: 0.16;
+    position: absolute;
+    right: -18px;
+    top: -18px;
+    width: 72px;
+    z-index: 0;
+}
+
+.metric-teal {
+    border-left: 6px solid var(--teal);
+}
+
+.metric-teal::after {
+    background: var(--teal);
+}
+
+.metric-violet {
+    border-left: 6px solid var(--violet);
+}
+
+.metric-violet::after {
+    background: var(--violet);
+}
+
+.metric-coral {
+    border-left: 6px solid var(--coral);
+}
+
+.metric-coral::after {
+    background: var(--coral);
+}
+
+.metric-amber {
+    border-left: 6px solid var(--amber);
+}
+
+.metric-amber::after {
+    background: var(--amber);
+}
+
+.account-status-panel {
+    background:
+        linear-gradient(135deg, rgba(94, 234, 212, 0.14), rgba(254, 243, 199, 0.22)),
+        #ffffff;
+}
+
+.pending-panel {
+    background:
+        linear-gradient(135deg, rgba(232, 93, 90, 0.08), rgba(255, 255, 255, 0.7)),
+        #ffffff;
+}
+
+.history-panel,
+.log-panel,
+.users-panel {
+    background:
+        linear-gradient(135deg, rgba(91, 91, 214, 0.07), rgba(94, 234, 212, 0.08)),
+        #ffffff;
+}
+
+.log-panel {
+    background:
+        linear-gradient(135deg, rgba(94, 234, 212, 0.22), transparent 38%),
+        linear-gradient(225deg, rgba(245, 158, 11, 0.18), transparent 42%),
+        linear-gradient(180deg, rgba(91, 91, 214, 0.1), rgba(255, 255, 255, 0.92)),
+        #ffffff;
+}
+
+.log-panel tbody tr:nth-child(odd) {
+    background: rgba(94, 234, 212, 0.07);
+}
+
+.log-panel tbody tr:nth-child(even) {
+    background: rgba(245, 158, 11, 0.06);
+}
+
+.log-panel .badge.text-bg-light {
+    background: #ecfeff !important;
+    border: 1px solid #99f6e4;
+    color: var(--teal-dark) !important;
+}
+
+.create-account-panel {
+    background:
+        linear-gradient(145deg, rgba(254, 243, 199, 0.62), rgba(217, 255, 245, 0.7)),
+        #ffffff;
+}
+
+.create-account-steps {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 34px 1fr;
+    margin-top: 18px;
+}
+
+.create-account-steps span {
+    align-items: center;
+    background: var(--amber);
+    border-radius: 50%;
+    color: #102329;
+    display: inline-flex;
+    font-weight: 850;
+    height: 30px;
+    justify-content: center;
+    width: 30px;
+}
+
+.create-account-steps strong {
+    align-self: center;
+    color: var(--ink);
+}
+
+/* ============================================================
+   Multimedia y categorias de aprendizaje
+   Modelo 3D, videos, tarjetas de categorias y animales guia.
+   ============================================================ */
 .three-stage {
     background: #0f1f25;
     border-radius: 8px;
@@ -430,6 +1151,143 @@ body {
         linear-gradient(225deg, rgba(245, 158, 11, 0.16), transparent 48%),
         #f7fbfc;
     min-height: 100vh;
+}
+
+.guest-shell {
+    background:
+        linear-gradient(135deg, rgba(94, 234, 212, 0.18), transparent 38%),
+        linear-gradient(225deg, rgba(245, 158, 11, 0.18), transparent 44%),
+        linear-gradient(180deg, #eef8f7 0%, #f7fbfc 44%, #eef3f6 100%);
+    min-height: 100vh;
+}
+
+/* ============================================================
+   Modo invitado
+   Vista publica y limitada: muestra beneficios, juegos de muestra
+   y llamadas a crear estudiante.
+   ============================================================ */
+.guest-hero {
+    border-bottom: 1px solid var(--line);
+    padding: 56px 0 34px;
+}
+
+.guest-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.guest-preview-board {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 0.72fr 1fr;
+}
+
+.guest-score-card,
+.guest-create-card,
+.guest-offer-card,
+.guest-game-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: 0 18px 42px rgba(21, 36, 43, 0.1);
+    overflow: hidden;
+    padding: 20px;
+    position: relative;
+}
+
+.guest-score-card {
+    align-content: center;
+    background:
+        linear-gradient(155deg, rgba(254, 243, 199, 0.7), rgba(217, 255, 245, 0.8)),
+        #ffffff;
+    display: grid;
+    min-height: 240px;
+}
+
+.guest-score-card span,
+.guest-game-card span {
+    color: var(--coral);
+    font-size: 0.78rem;
+    font-weight: 850;
+    text-transform: uppercase;
+}
+
+.guest-score-card strong {
+    color: var(--teal-dark);
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.guest-animals {
+    min-height: 240px;
+}
+
+.guest-create-band {
+    padding: 28px 12px;
+}
+
+.guest-create-card {
+    align-items: center;
+    background:
+        linear-gradient(90deg, rgba(94, 234, 212, 0.2), rgba(245, 158, 11, 0.18), rgba(232, 93, 90, 0.12)),
+        #ffffff;
+    display: grid;
+    gap: 8px;
+    justify-items: center;
+    margin: 0 auto;
+    max-width: 760px;
+    text-align: center;
+}
+
+.guest-create-card h2,
+.guest-section-title h2 {
+    font-weight: 850;
+}
+
+.guest-create-card p {
+    color: var(--muted);
+    max-width: 620px;
+}
+
+.guest-section-title {
+    margin-bottom: 16px;
+}
+
+.guest-offer-grid,
+.guest-game-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.guest-offer-card {
+    border-top: 6px solid var(--teal);
+}
+
+.guest-offer-card:nth-child(2) {
+    border-top-color: var(--amber);
+}
+
+.guest-offer-card:nth-child(3) {
+    border-top-color: var(--coral);
+}
+
+.guest-offer-card h3,
+.guest-game-card h3 {
+    font-size: 1.2rem;
+    font-weight: 850;
+}
+
+.guest-offer-card p,
+.guest-game-card p {
+    color: var(--muted);
+}
+
+.guest-game-card {
+    display: grid;
+    gap: 10px;
 }
 
 .category-hero {
@@ -499,6 +1357,11 @@ body {
     color: #e8fbf6;
 }
 
+/* ============================================================
+   Apartado Jugar
+   Fondo, hero, progreso general, barras por juego y mensajes de
+   acierto/error.
+   ============================================================ */
 .game-shell {
     background:
         linear-gradient(135deg, rgba(94, 234, 212, 0.18), transparent 42%),
@@ -530,6 +1393,97 @@ body {
     background: linear-gradient(90deg, var(--teal), var(--amber), var(--coral));
 }
 
+.game-local-progress {
+    background: rgba(255, 255, 255, 0.74);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin: 0 0 12px;
+    max-width: 330px;
+    padding: 9px 10px;
+}
+
+.game-local-progress span {
+    color: var(--muted);
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 850;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.game-local-progress .progress {
+    background: #dce8eb;
+    height: 9px;
+    overflow: hidden;
+}
+
+.game-local-progress .progress-bar {
+    background:
+        linear-gradient(90deg, var(--teal), #5eead4, var(--amber));
+    transition: width 0.32s ease;
+}
+
+.game-signal {
+    align-items: center;
+    background: transparent;
+    border-radius: 50%;
+    display: flex;
+    font-size: 4rem;
+    font-weight: 900;
+    height: 96px;
+    justify-content: center;
+    left: 50%;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    transition: opacity 0.16s ease, transform 0.16s ease;
+    width: 96px;
+    z-index: 1050;
+}
+
+.game-signal.star,
+.game-signal.x {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.game-signal.star {
+    color: #f59e0b;
+    filter: drop-shadow(0 12px 18px rgba(245, 158, 11, 0.35));
+}
+
+.game-signal.x {
+    background: #fee2e2;
+    border: 5px solid #e85d5a;
+    color: #991b1b;
+    filter: drop-shadow(0 12px 18px rgba(232, 93, 90, 0.28));
+}
+
+.success-toast {
+    background: #dcfce7;
+    border: 2px solid #22c55e;
+    border-radius: 8px;
+    color: #166534;
+    font-weight: 850;
+    margin-top: 12px;
+    max-width: 420px;
+    opacity: 0;
+    padding: 10px 12px;
+    transform: translateY(-8px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.success-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ============================================================
+   Acciones del hero de juegos
+   Botones principales para navegar entre categorias y juegos.
+   ============================================================ */
 .hero-actions {
     display: flex;
     flex-wrap: wrap;
@@ -797,6 +1751,11 @@ body {
     color: #d9fff5;
 }
 
+/* ============================================================
+   Tarjetas base de juegos
+   Estructura de cada juego, ecuaciones, feedback, estado
+   completado y boton para reiniciar.
+   ============================================================ */
 .game-grid {
     display: grid;
     gap: 24px;
@@ -881,6 +1840,10 @@ body {
     outline: 3px solid rgba(15, 118, 110, 0.28);
 }
 
+.celebrate {
+    animation: celebrateCard 0.8s ease;
+}
+
 .game-complete::after {
     background: var(--teal);
     border-radius: 0 0 0 8px;
@@ -892,6 +1855,38 @@ body {
     position: absolute;
     right: 0;
     top: 0;
+}
+
+.replay-game-btn {
+    background: #fef3c7;
+    border: 2px solid var(--amber);
+    border-radius: 999px;
+    color: #78350f;
+    font-size: 0.78rem;
+    font-weight: 850;
+    padding: 7px 12px;
+    position: absolute;
+    right: 12px;
+    top: 42px;
+    z-index: 3;
+}
+
+.replay-game-btn:hover,
+.replay-game-btn:focus {
+    background: var(--amber);
+    color: #102329;
+}
+
+.level-pill {
+    background: #fef3c7;
+    border: 2px solid #f59e0b;
+    border-radius: 999px;
+    color: #78350f;
+    display: inline-flex;
+    font-weight: 850;
+    gap: 4px;
+    margin: 2px 0 10px;
+    padding: 7px 12px;
 }
 
 .mini-exercises {
@@ -954,6 +1949,10 @@ body {
     display: none;
 }
 
+/* ============================================================
+   Juego del Zorro 3D
+   Escenario Three.js y fila de pociones.
+   ============================================================ */
 .monster-stage {
     background: #102329;
     border-radius: 8px;
@@ -981,6 +1980,15 @@ body {
     width: 22px;
 }
 
+.potion-row span.used {
+    opacity: 0.42;
+    transform: translateY(8px);
+}
+
+/* ============================================================
+   Juego de raices con regla laser
+   Canvas interactivo para medir lados de cuadrados.
+   ============================================================ */
 .laser-canvas {
     border-radius: 8px;
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
@@ -994,6 +2002,10 @@ body {
     cursor: grabbing;
 }
 
+/* ============================================================
+   Maquina de cubos
+   Robot, zona de arrastre y opciones de bloques.
+   ============================================================ */
 .machine-visual {
     align-items: center;
     background: #102329;
@@ -1104,6 +2116,10 @@ body {
     cursor: grabbing;
 }
 
+/* ============================================================
+   Portal de comparaciones
+   Opciones grandes para elegir la potencia con mayor valor.
+   ============================================================ */
 .portal-visual {
     align-items: stretch;
     background: #102329;
@@ -1145,6 +2161,10 @@ body {
     transform: translateY(-4px);
 }
 
+/* ============================================================
+   Memoria matematica
+   Cartas de expresion/resultado, seleccion y pares encontrados.
+   ============================================================ */
 .memory-board {
     background: #102329;
     border-radius: 8px;
@@ -1177,6 +2197,10 @@ body {
     color: #166534;
 }
 
+/* ============================================================
+   Torre del Panda
+   Visual de torre y control de potencia de 10.
+   ============================================================ */
 .tower-visual {
     align-items: end;
     background:
@@ -1212,10 +2236,134 @@ body {
     max-width: 320px;
 }
 
+/* ============================================================
+   Laguna de los peces
+   Agua, peces con respuestas, aciertos y errores.
+   ============================================================ */
+.lake-visual {
+    background: #d9fff5;
+    border-radius: 8px;
+    min-height: 340px;
+    overflow: hidden;
+    padding: 18px;
+}
+
+.lake-water {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.45), transparent 28%),
+        repeating-linear-gradient(0deg, rgba(94, 234, 212, 0.18) 0 14px, rgba(15, 118, 110, 0.12) 14px 28px),
+        #67e8f9;
+    border: 4px solid #0f766e;
+    border-radius: 8px;
+    height: 100%;
+    min-height: 300px;
+    position: relative;
+}
+
+.lake-water::before {
+    color: rgba(15, 94, 89, 0.28);
+    content: attr(data-target);
+    font-size: 7rem;
+    font-weight: 850;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.fish {
+    align-items: center;
+    animation: swim 4.4s ease-in-out infinite;
+    background:
+        linear-gradient(90deg, #ff7a18 0 18%, #ffffff 18% 29%, #111827 29% 34%, #ff7a18 34% 62%, #ffffff 62% 74%, #111827 74% 79%, #ff7a18 79% 100%);
+    border: 3px solid #ffffff;
+    border-radius: 60% 44% 46% 60%;
+    box-shadow: 0 7px 0 rgba(15, 118, 110, 0.13);
+    color: #17212b;
+    display: flex;
+    font-size: 1.5rem;
+    font-weight: 850;
+    height: 72px;
+    justify-content: center;
+    position: absolute;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    width: 118px;
+    z-index: 1;
+}
+
+.fish::before {
+    background: #111827;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    content: "";
+    height: 11px;
+    left: 14px;
+    position: absolute;
+    top: 20px;
+    width: 11px;
+}
+
+.fish::after {
+    background: #ff7a18;
+    border: 3px solid #111827;
+    border-left: 0;
+    border-radius: 0 80% 80% 0;
+    content: "";
+    height: 46px;
+    position: absolute;
+    right: -28px;
+    top: 12px;
+    transform: skewX(-12deg);
+    width: 34px;
+    z-index: -1;
+}
+
+.fish-a {
+    left: 8%;
+    top: 20%;
+}
+
+.fish-b {
+    animation-delay: 0.6s;
+    right: 12%;
+    top: 28%;
+}
+
+.fish-c {
+    animation-delay: 1.1s;
+    left: 22%;
+    bottom: 18%;
+}
+
+.fish-d {
+    animation-delay: 1.6s;
+    right: 18%;
+    bottom: 14%;
+}
+
+.fish.caught {
+    background:
+        linear-gradient(90deg, #22c55e 0 20%, #ffffff 20% 32%, #166534 32% 37%, #bbf7d0 37% 100%);
+    border-color: #22c55e;
+    transform: scale(1.08);
+}
+
+.fish.wrong {
+    background:
+        linear-gradient(90deg, #e85d5a 0 20%, #ffffff 20% 32%, #991b1b 32% 37%, #fecaca 37% 100%);
+    border-color: #e85d5a;
+    animation: shakeGame 0.34s linear;
+}
+
 .shake {
     animation: shakeGame 0.34s linear;
 }
 
+/* ============================================================
+   Animaciones
+   Movimiento de animales, robot, peces, tarjetas, barras,
+   burbujas de fondo y notificaciones.
+   ============================================================ */
 @keyframes floatFormula {
     0%,
     100% {
@@ -1252,6 +2400,301 @@ body {
     }
 }
 
+@keyframes celebrateCard {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    35% {
+        transform: scale(1.015);
+    }
+    70% {
+        transform: scale(0.995);
+    }
+}
+
+@keyframes swim {
+    0%,
+    100% {
+        transform: translateX(0) rotate(-2deg);
+    }
+    50% {
+        transform: translateX(18px) rotate(3deg);
+    }
+}
+
+@keyframes progressPulse {
+    0%,
+    100% {
+        filter: saturate(1);
+    }
+    50% {
+        filter: saturate(1.3) brightness(1.08);
+    }
+}
+
+@keyframes progressStripes {
+    from {
+        background-position: 0 0, 0 0;
+    }
+    to {
+        background-position: 0 0, 28px 0;
+    }
+}
+
+@keyframes bubblesUp {
+    0% {
+        background-position: 0 18px, 0 34px, 0 46px, 0 62px;
+    }
+    100% {
+        background-position: 0 -220px, 0 -180px, 0 -260px, 0 -210px;
+    }
+}
+
+@keyframes achievementToastIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes achievementToastOut {
+    to {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-10px) scale(0.98);
+    }
+}
+
+/* ============================================================
+   Modo oscuro
+   Sobrescribe colores de fondos, tarjetas, tablas, formularios,
+   juegos y botones para conservar contraste.
+   ============================================================ */
+[data-theme="dark"] {
+    --ink: #eef8f7;
+    --muted: #b7c9cf;
+    --paper: #0f1f25;
+    --line: #2b4650;
+}
+
+[data-theme="dark"] body {
+    background: #0f1f25;
+    color: var(--ink);
+}
+
+[data-theme="dark"] .hero-radix,
+[data-theme="dark"] .auth-page,
+[data-theme="dark"] .category-shell,
+[data-theme="dark"] .guest-shell,
+[data-theme="dark"] .game-shell,
+[data-theme="dark"] .play-hero {
+    background:
+        linear-gradient(135deg, rgba(94, 234, 212, 0.12), transparent 42%),
+        linear-gradient(225deg, rgba(245, 158, 11, 0.12), transparent 46%),
+        #0f1f25;
+}
+
+[data-theme="dark"] .formula-board,
+[data-theme="dark"] .auth-panel,
+[data-theme="dark"] .data-panel,
+[data-theme="dark"] .feature-card,
+[data-theme="dark"] .category-card,
+[data-theme="dark"] .metric-card,
+[data-theme="dark"] .media-strip,
+[data-theme="dark"] .profile-summary,
+[data-theme="dark"] .student-progress,
+[data-theme="dark"] .achievement-card,
+[data-theme="dark"] .category-tile,
+[data-theme="dark"] .play-directory a,
+[data-theme="dark"] .game-card,
+[data-theme="dark"] .mission-status,
+[data-theme="dark"] .game-local-progress,
+[data-theme="dark"] .mini-exercises,
+[data-theme="dark"] .guest-score-card,
+[data-theme="dark"] .guest-create-card,
+[data-theme="dark"] .guest-offer-card,
+[data-theme="dark"] .guest-game-card {
+    background: #142a31;
+    border-color: var(--line);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+    color: var(--ink);
+}
+
+[data-theme="dark"] .account-status-panel,
+[data-theme="dark"] .pending-panel,
+[data-theme="dark"] .history-panel,
+[data-theme="dark"] .log-panel,
+[data-theme="dark"] .users-panel,
+[data-theme="dark"] .achievements-panel,
+[data-theme="dark"] .create-account-panel {
+    background:
+        linear-gradient(135deg, rgba(94, 234, 212, 0.1), rgba(245, 158, 11, 0.08)),
+        #142a31;
+}
+
+[data-theme="dark"] .register-panel {
+    background:
+        linear-gradient(145deg, rgba(94, 234, 212, 0.08), rgba(245, 158, 11, 0.08)),
+        #142a31;
+}
+
+[data-theme="dark"] .table {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--ink);
+    --bs-table-border-color: var(--line);
+    color: var(--ink);
+}
+
+[data-theme="dark"] .table thead,
+[data-theme="dark"] .table th {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .text-muted,
+[data-theme="dark"] .hint,
+[data-theme="dark"] .game-feedback,
+[data-theme="dark"] .profile-summary p,
+[data-theme="dark"] .category-tile p:not(.game-label),
+[data-theme="dark"] .play-directory span,
+[data-theme="dark"] .guest-create-card p,
+[data-theme="dark"] .guest-offer-card p,
+[data-theme="dark"] .guest-game-card p,
+[data-theme="dark"] .achievement-content p,
+[data-theme="dark"] .achievement-corner span {
+    color: var(--muted) !important;
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+    background-color: #0f1f25;
+    border-color: var(--line);
+    color: var(--ink);
+}
+
+[data-theme="dark"] .register-benefits span {
+    background: #123d3c;
+    border-color: #0f766e;
+    color: #d9fff5;
+}
+
+[data-theme="dark"] .form-control::placeholder {
+    color: #91a6ad;
+}
+
+[data-theme="dark"] .btn-outline-dark {
+    --bs-btn-color: #d9fff5;
+    --bs-btn-border-color: #8bded0;
+    --bs-btn-hover-color: #0f1f25;
+    --bs-btn-hover-bg: #d9fff5;
+    --bs-btn-hover-border-color: #d9fff5;
+}
+
+[data-theme="dark"] .account-dropdown,
+[data-theme="dark"] .dropdown-menu {
+    background: #142a31;
+    border-color: var(--line);
+}
+
+[data-theme="dark"] .dropdown-item {
+    color: var(--ink);
+}
+
+[data-theme="dark"] .dropdown-item:hover,
+[data-theme="dark"] .dropdown-item:focus {
+    background: #1d3a43;
+    color: #d9fff5;
+}
+
+[data-theme="dark"] .level-pill {
+    background: #3b2a0b;
+    border-color: var(--amber);
+    color: #fef3c7;
+}
+
+[data-theme="dark"] .game-equation,
+[data-theme="dark"] .formula-orbit,
+[data-theme="dark"] .category-mascot-board,
+[data-theme="dark"] .animal-playground,
+[data-theme="dark"] .monster-stage,
+[data-theme="dark"] .machine-visual,
+[data-theme="dark"] .portal-visual,
+[data-theme="dark"] .memory-board,
+[data-theme="dark"] .tower-visual {
+    background-color: #07161b;
+}
+
+[data-theme="dark"] .progress,
+[data-theme="dark"] .student-progress .progress,
+[data-theme="dark"] .admin-progress-cell .progress,
+[data-theme="dark"] .game-local-progress .progress,
+[data-theme="dark"] .mission-status .progress,
+[data-theme="dark"] .achievement-progress .progress {
+    background: #26424b;
+}
+
+[data-theme="dark"] .avatar-option span,
+[data-theme="dark"] .avatar-ring,
+[data-theme="dark"] .profile-avatar-xl,
+[data-theme="dark"] .corner-achievement,
+[data-theme="dark"] .achievement-how,
+[data-theme="dark"] .mini-exercises button,
+[data-theme="dark"] .block-chip,
+[data-theme="dark"] .memory-board button {
+    background: #0f1f25;
+    border-color: var(--line);
+    color: var(--ink);
+}
+
+[data-theme="dark"] .memory-board button.matched {
+    background: #064e3b;
+    border-color: #34d399;
+    box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.22), inset 0 0 20px rgba(52, 211, 153, 0.2);
+    color: #d1fae5;
+}
+
+[data-theme="dark"] .icon-action {
+    background: #0f1f25;
+    border-color: var(--line);
+}
+
+[data-theme="dark"] .icon-update {
+    background: var(--teal);
+    border-color: #5eead4;
+}
+
+[data-theme="dark"] .icon-block {
+    border-color: #fb7185;
+}
+
+[data-theme="dark"] .icon-unblock {
+    border-color: #34d399;
+}
+
+[data-theme="dark"] .badge.text-bg-light {
+    background: #d9fff5 !important;
+    color: #0f1f25 !important;
+}
+
+[data-theme="dark"] .admin-soft-badge {
+    background: #123d3c;
+    border-color: #0f766e;
+    color: #d9fff5;
+}
+
+[data-theme="dark"] .radix-footer {
+    background: #07161b;
+}
+
+/* ============================================================
+   Responsive
+   Ajustes para tablet y movil: grillas a una columna, tablas con
+   scroll y tarjetas mas compactas.
+   ============================================================ */
 @media (max-width: 768px) {
     .hero-radix {
         padding-top: 44px;
@@ -1278,12 +2721,25 @@ body {
         max-width: 132px;
     }
 
+    .achievement-corner {
+        margin-bottom: 16px;
+        max-width: none;
+        position: static;
+    }
+
+    .achievement-grid {
+        grid-template-columns: 1fr;
+    }
+
     .avatar-picker {
-        grid-template-columns: repeat(4, 48px);
+        grid-template-columns: repeat(auto-fit, 42px);
     }
 
     .category-select-grid,
-    .play-directory {
+    .play-directory,
+    .guest-preview-board,
+    .guest-offer-grid,
+    .guest-game-grid {
         grid-template-columns: 1fr;
     }
 
@@ -1313,7 +2769,18 @@ body {
     }
 
     .category-select-grid,
-    .play-directory {
+    .play-directory,
+    .guest-preview-board,
+    .guest-offer-grid,
+    .guest-game-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 1200px) {
+    .achievement-corner {
+        margin-bottom: 16px;
+        max-width: none;
+        position: static;
     }
 }

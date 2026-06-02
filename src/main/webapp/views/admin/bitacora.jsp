@@ -15,10 +15,22 @@
 </head>
 <body>
 <jsp:include page="/views/shared/navbar.jsp"/>
-<main class="container py-4">
-    <p class="section-kicker">Administrador</p>
-    <h1 class="page-title">Bitacora del sistema</h1>
-    <section class="data-panel">
+<main class="container py-4 admin-shell">
+    <div class="admin-title-row">
+        <div>
+            <p class="section-kicker">Administrador</p>
+            <h1 class="page-title">Bitacora del sistema</h1>
+        </div>
+        <a class="btn btn-outline-dark" href="${pageContext.request.contextPath}/admin/dashboard">Volver al panel</a>
+    </div>
+    <section class="data-panel admin-panel-accent log-panel">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+            <div>
+                <p class="section-kicker mb-1">Actividad</p>
+                <h2 class="h4 mb-0">Eventos recientes</h2>
+            </div>
+            <span class="admin-soft-badge">Ultimos 200 registros</span>
+        </div>
         <div class="table-responsive">
             <table class="table align-middle">
                 <thead>

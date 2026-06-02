@@ -1,9 +1,14 @@
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
 <%@ page import="io.github.josuevele77.educaradix.models.ActividadEstudiante" %>
+<%@ page import="io.github.josuevele77.educaradix.models.Usuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<ActividadEstudiante> pendientes = (List<ActividadEstudiante>) request.getAttribute("pendientes");
     List<ActividadEstudiante> actividades = (List<ActividadEstudiante>) request.getAttribute("actividades");
+    List<Usuario> usuarios = (List<Usuario>) request.getAttribute("usuarios");
+    Map<Integer, Integer> progresoUsuarios = (Map<Integer, Integer>) request.getAttribute("progresoUsuarios");
+    Integer totalMisiones = (Integer) request.getAttribute("totalMisiones");
+    int total = totalMisiones == null ? 7 : totalMisiones;
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -16,54 +21,70 @@
 </head>
 <body>
 <jsp:include page="/views/shared/navbar.jsp"/>
-<main class="container py-4">
-    <p class="section-kicker">Administrador</p>
-    <h1 class="page-title">Panel de control</h1>
-    <div class="row g-3 mb-4">
-        <div class="col-md-3"><div class="metric-card"><span>Estudiantes</span><strong><%= request.getAttribute("totalEstudiantes") %></strong></div></div>
-        <div class="col-md-3"><div class="metric-card"><span>Administradores</span><strong><%= request.getAttribute("totalAdmins") %></strong></div></div>
-        <div class="col-md-3"><div class="metric-card"><span>Bloqueados</span><strong><%= request.getAttribute("totalBloqueados") %></strong></div></div>
-        <div class="col-md-3"><div class="metric-card"><span>Por revisar</span><strong><%= request.getAttribute("actividadesPendientes") %></strong></div></div>
+<main class="container py-4 admin-shell">
+    <div class="admin-title-row">
+        <div>
+            <p class="section-kicker">Administrador</p>
+            <h1 class="page-title">Panel de control</h1>
+        </div>
+        <a class="btn btn-radix" href="${pageContext.request.contextPath}/admin/usuarios">Crear cuenta</a>
     </div>
-    <section class="data-panel mb-4">
-        <h2 class="h4">Actividades pendientes</h2>
+    <div class="row g-3 mb-4">
+        <div class="col-md-3"><div class="metric-card metric-teal"><span>Estudiantes</span><strong><%= request.getAttribute("totalEstudiantes") %></strong></div></div>
+        <div class="col-md-3"><div class="metric-card metric-violet"><span>Administradores</span><strong><%= request.getAttribute("totalAdmins") %></strong></div></div>
+        <div class="col-md-3"><div class="metric-card metric-coral"><span>Bloqueados</span><strong><%= request.getAttribute("totalBloqueados") %></strong></div></div>
+        <div class="col-md-3"><div class="metric-card metric-amber"><span>Por revisar</span><strong><%= request.getAttribute("actividadesPendientes") %></strong></div></div>
+    </div>
+    <section class="data-panel admin-panel-accent account-status-panel mb-4">
+        <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
+            <div>
+                <p class="section-kicker mb-1">Cuentas</p>
+                <h2 class="h4 mb-0">Estado de cuentas creadas</h2>
+            </div>
+            <a class="btn btn-outline-dark btn-sm" href="${pageContext.request.contextPath}/admin/usuarios">Gestionar usuarios</a>
+        </div>
         <div class="table-responsive">
             <table class="table align-middle">
                 <thead>
                 <tr>
-                    <th>Estudiante</th>
-                    <th>Categoria</th>
-                    <th>Respuesta</th>
-                    <th>Puntaje</th>
-                    <th>Revision</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Rol</th>
+                    <th>Estado</th>
+                    <th>Progreso</th>
                 </tr>
                 </thead>
                 <tbody>
-                <% if (pendientes == null || pendientes.isEmpty()) { %>
-                    <tr><td colspan="5" class="text-muted">No hay actividades pendientes.</td></tr>
+                <% if (usuarios == null || usuarios.isEmpty()) { %>
+                    <tr><td colspan="5" class="text-muted">No hay cuentas creadas.</td></tr>
                 <% } else {
-                    for (ActividadEstudiante a : pendientes) { %>
-                        <tr>
-                            <td><%= a.getEstudianteNombre() %></td>
-                            <td><%= a.getCategoria() %></td>
-                            <td><%= a.getRespuesta() %></td>
-                            <td><%= a.getPuntaje() %></td>
-                            <td>
-                                <form class="d-flex flex-wrap gap-2" action="${pageContext.request.contextPath}/admin/actividades" method="post">
-                                    <input type="hidden" name="id" value="<%= a.getId() %>">
-                                    <input class="form-control form-control-sm review-input" type="text" name="comentario" placeholder="Comentario">
-                                    <button class="btn btn-success btn-sm" name="aprobado" value="true" type="submit">Aprobar</button>
-                                    <button class="btn btn-outline-danger btn-sm" name="aprobado" value="false" type="submit">Observar</button>
-                                </form>
-                            </td>
-                        </tr>
+                    for (Usuario u : usuarios) {
+                        int completadas = progresoUsuarios == null ? 0 : progresoUsuarios.getOrDefault(u.getId(), 0);
+                        int porcentaje = "ESTUDIANTE".equals(u.getRol()) ? Math.min(100, Math.round((completadas * 100f) / total)) : 0;
+                %>
+                    <tr>
+                        <td><%= u.getNombre() %></td>
+                        <td><%= u.getCorreo() %></td>
+                        <td><span class="badge text-bg-light"><%= u.getRol() %></span></td>
+                        <td><span class="badge <%= u.isBloqueado() ? "text-bg-danger" : "text-bg-success" %>"><%= u.isBloqueado() ? "Bloqueado" : "Activo" %></span></td>
+                        <td>
+                            <% if ("ESTUDIANTE".equals(u.getRol())) { %>
+                                <div class="admin-progress-cell">
+                                    <span><%= completadas %>/<%= total %></span>
+                                    <div class="progress"><div class="progress-bar progress-bar-animated-radix" style="width: <%= porcentaje %>%"></div></div>
+                                </div>
+                            <% } else { %>
+                                <span class="text-muted">No aplica</span>
+                            <% } %>
+                        </td>
+                    </tr>
                 <%  }
                    } %>
                 </tbody>
             </table>
         </div>
     </section>
-    <section class="data-panel">
+    <section class="data-panel admin-panel-accent history-panel">
         <h2 class="h4">Historial de respuestas</h2>
         <div class="table-responsive">
             <table class="table align-middle">

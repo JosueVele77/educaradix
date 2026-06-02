@@ -1,3 +1,34 @@
+-- ============================================================
+-- EducaRadix - Script de base de datos PostgreSQL
+-- ============================================================
+-- Uso recomendado:
+-- 1. Abrir una terminal en esta carpeta.
+-- 2. Ejecutar:
+--      psql -U postgres -f educaradix_db.sql
+-- 3. El script crea la base educaradix si no existe, se conecta y
+--    prepara tablas, indices y usuarios iniciales.
+--
+-- Credenciales esperadas por la aplicacion:
+--   Base de datos: educaradix
+--   Usuario: postgres
+--   Clave: root
+--
+-- Si usas otro usuario o clave, cambia esos datos en:
+-- src/main/java/io/github/josuevele77/educaradix/config/DatabaseConnection.java
+-- ============================================================
+
+-- Crea la base de datos solo si falta. Esta instruccion usa comandos de psql.
+SELECT 'CREATE DATABASE educaradix'
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM pg_database
+    WHERE datname = 'educaradix'
+)\gexec
+
+-- A partir de aqui todo se ejecuta dentro de la base usada por la aplicacion.
+\connect educaradix
+
+-- Usuarios del sistema: administradores y estudiantes.
 CREATE TABLE IF NOT EXISTS usuarios (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(120) NOT NULL,
@@ -10,6 +41,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     ultima_actualizacion TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+-- Bitacora de eventos: inicios de sesion, registros, cambios y acciones administrativas.
 CREATE TABLE IF NOT EXISTS bitacora (
     id SERIAL PRIMARY KEY,
     usuario_id INTEGER NULL REFERENCES usuarios(id) ON DELETE SET NULL,
@@ -19,6 +51,8 @@ CREATE TABLE IF NOT EXISTS bitacora (
     fecha TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+-- Actividades completadas por estudiantes.
+-- Cada registro guarda una mision/juego resuelto y permite calcular progreso.
 CREATE TABLE IF NOT EXISTS actividades_estudiante (
     id SERIAL PRIMARY KEY,
     usuario_id INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
@@ -31,19 +65,36 @@ CREATE TABLE IF NOT EXISTS actividades_estudiante (
     fecha_registro TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+-- Indices para busquedas frecuentes.
 CREATE INDEX IF NOT EXISTS idx_usuarios_correo ON usuarios(correo);
 CREATE INDEX IF NOT EXISTS idx_actividades_usuario ON actividades_estudiante(usuario_id);
 CREATE INDEX IF NOT EXISTS idx_actividades_revision ON actividades_estudiante(revisado);
+CREATE INDEX IF NOT EXISTS idx_actividades_usuario_categoria ON actividades_estudiante(usuario_id, LOWER(TRIM(categoria)));
 CREATE INDEX IF NOT EXISTS idx_bitacora_fecha ON bitacora(fecha DESC);
 
+-- Usuarios iniciales.
+-- Admin inicial: admin@educaradix.edu / Admin1234
+-- Estudiante demo: estudiante@educaradix.edu / Estudiante123
 INSERT INTO usuarios (nombre, correo, clave, rol, bloqueado)
 VALUES
     ('Administrador EducaRadix', 'admin@educaradix.edu', '60fe74406e7f353ed979f350f2fbb6a2e8690a5fa7d1b0c32983d1d8b3f95f67', 'ADMIN', FALSE),
     ('Estudiante Demo', 'estudiante@educaradix.edu', '3b7d577e2e841153c1b6f71ec437e03ea134b219c9bd8375feb8d827808b9eea', 'ESTUDIANTE', FALSE)
 ON CONFLICT (correo) DO NOTHING;
 
+-- Marca de instalacion. Evita repetir el mismo evento al correr el script varias veces.
 INSERT INTO bitacora (usuario_nombre, accion, detalle)
-VALUES ('Sistema', 'INSTALACION_BD', 'Estructura inicial de EducaRadix creada.')
-ON CONFLICT DO NOTHING;
+SELECT 'Sistema', 'INSTALACION_BD', 'Estructura inicial de EducaRadix creada.'
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM bitacora
+    WHERE usuario_nombre = 'Sistema'
+      AND accion = 'INSTALACION_BD'
+      AND detalle = 'Estructura inicial de EducaRadix creada.'
+);
 
-SELECT *FROM usuarios;
+-- Consulta final de verificacion.
+SELECT id, nombre, correo, rol, bloqueado, fecha_registro
+FROM usuarios
+ORDER BY id;
+
+select *from usuarios;

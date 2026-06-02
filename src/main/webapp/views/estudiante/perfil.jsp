@@ -1,4 +1,7 @@
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="java.util.HashSet" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="io.github.josuevele77.educaradix.models.ActividadEstudiante" %>
 <%@ page import="io.github.josuevele77.educaradix.models.Usuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -12,6 +15,59 @@
     String avatarBase = "https://images.avataranimals.com/animals/transparent/";
     String avatarVersion = ".webp?v=a60026c088dc0dee";
     String avatarActual = usuario.getAvatarUrl() == null ? "" : usuario.getAvatarUrl();
+
+    int intentos = actividades == null ? 0 : actividades.size();
+    int puntajesPerfectos = 0;
+    int pendientes = 0;
+    int aprobadas = 0;
+    Set<String> categoriasCompletadas = new HashSet<>();
+    if (actividades != null) {
+        for (ActividadEstudiante actividad : actividades) {
+            if (actividad.getPuntaje() >= 100) {
+                puntajesPerfectos++;
+                categoriasCompletadas.add(actividad.getCategoria());
+            }
+            if (!actividad.isRevisado()) {
+                pendientes++;
+            } else if (actividad.isAprobado()) {
+                aprobadas++;
+            }
+        }
+    }
+    int progresoActual = progresoPorcentaje == null ? 0 : progresoPorcentaje;
+    int completadasActual = misionesCompletadas == null ? 0 : misionesCompletadas;
+    int totalActual = totalMisiones == null ? 7 : totalMisiones;
+    boolean tieneAvatar = !avatarActual.isEmpty();
+    int dominioPotencias = 0;
+    dominioPotencias += categoriasCompletadas.contains("potencias") ? 1 : 0;
+    dominioPotencias += categoriasCompletadas.contains("torre") ? 1 : 0;
+    dominioPotencias += categoriasCompletadas.contains("comparaciones") ? 1 : 0;
+    int dominioRaices = 0;
+    dominioRaices += categoriasCompletadas.contains("raices") ? 1 : 0;
+    dominioRaices += categoriasCompletadas.contains("radicales") ? 1 : 0;
+    dominioRaices += categoriasCompletadas.contains("laguna") ? 1 : 0;
+    boolean memoriaCompleta = categoriasCompletadas.contains("memoria");
+
+    String[][] logros = {
+            {"Primer paso", "Completa tu primera mision en Jugar.", "Entra a Jugar y termina cualquier juego.", String.valueOf(Math.min(completadasActual, 1)), "1", "1"},
+            {"Maestro de potencias", "Domina zorro, torre o portales de energia.", "Completa los juegos de potencias, torre y comparaciones.", String.valueOf(dominioPotencias), "3", "P"},
+            {"Explorador de raices", "Resuelve cuadrados, cubos y bases escondidas.", "Completa sombra laser, maquina de cubos y laguna.", String.valueOf(dominioRaices), "3", "R"},
+            {"Memoria nivel 10", "Supera todos los niveles del mapa de pares.", "Juega Memoria y termina sus 10 niveles.", memoriaCompleta ? "1" : "0", "1", "10"},
+            {"Perfil con identidad", "Personaliza tu cuenta con avatar.", "Escoge un avatar en Ajustes y actualiza tu perfil.", tieneAvatar ? "1" : "0", "1", "AV"},
+            {"Constancia", "Realiza al menos cinco intentos de practica.", "Juega varias rondas hasta registrar 5 actividades.", String.valueOf(Math.min(intentos, 5)), "5", "5x"},
+            {"Ruta EducaRadix", "Completa todas las misiones disponibles.", "Termina los 7 juegos del apartado Jugar.", String.valueOf(completadasActual), String.valueOf(totalActual), "%"},
+            {"Revision lista", "Ten actividades enviadas para revisar.", "Completa juegos y espera la revision del administrador.", String.valueOf(Math.min(pendientes + aprobadas, 3)), "3", "OK"}
+    };
+
+    List<String[]> logrosDesbloqueados = new ArrayList<>();
+    for (String[] logro : logros) {
+        int actual = Integer.parseInt(logro[3]);
+        int meta = Integer.parseInt(logro[4]);
+        if (meta > 0 && actual >= meta) {
+            logrosDesbloqueados.add(logro);
+        }
+    }
+    boolean mostrarLogrosDesbloqueados = request.getParameter("mensaje") != null && !logrosDesbloqueados.isEmpty();
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -24,7 +80,7 @@
 </head>
 <body>
 <jsp:include page="/views/shared/navbar.jsp"/>
-<main class="container py-4">
+<main class="container py-4 profile-page">
     <div class="page-heading">
         <div>
             <p class="section-kicker">Estudiante</p>
@@ -32,6 +88,21 @@
         </div>
         <a class="btn btn-outline-dark" href="${pageContext.request.contextPath}/estudiante/jugar">Volver a jugar</a>
     </div>
+    <% if (mostrarLogrosDesbloqueados) { %>
+    <aside class="achievement-corner achievement-toast" aria-label="Logros desbloqueados">
+        <strong>Logros desbloqueados</strong>
+        <%
+            int visibles = Math.min(logrosDesbloqueados.size(), 3);
+            for (int i = 0; i < visibles; i++) {
+                String[] logro = logrosDesbloqueados.get(i);
+        %>
+            <div class="corner-achievement"><span><%= logro[5] %></span><%= logro[0] %></div>
+        <%  }
+            if (logrosDesbloqueados.size() > visibles) { %>
+            <span>+<%= logrosDesbloqueados.size() - visibles %> mas</span>
+        <%  } %>
+    </aside>
+    <% } %>
     <% if (request.getParameter("mensaje") != null) { %>
         <div class="alert alert-success"><%= request.getParameter("mensaje") %></div>
     <% } %>
@@ -55,12 +126,12 @@
                 <div class="student-progress">
                     <div class="d-flex align-items-center justify-content-between gap-2">
                         <strong>Progreso</strong>
-                        <span><%= misionesCompletadas == null ? 0 : misionesCompletadas %>/<%= totalMisiones == null ? 6 : totalMisiones %></span>
+                        <span><%= misionesCompletadas == null ? 0 : misionesCompletadas %>/<%= totalMisiones == null ? 7 : totalMisiones %></span>
                     </div>
                     <div class="progress">
-                        <div class="progress-bar" style="width: <%= progresoPorcentaje == null ? 0 : progresoPorcentaje %>%"></div>
+                        <div class="progress-bar progress-bar-animated-radix" style="width: <%= progresoActual %>%"></div>
                     </div>
-                    <small><%= progresoPorcentaje == null ? 0 : progresoPorcentaje %>% completado</small>
+                    <small><%= progresoActual %>% completado</small>
                 </div>
             </section>
 
@@ -91,52 +162,55 @@
                                 </label>
                             <% } %>
                         </div>
-                        <a class="small d-inline-block mt-2" href="https://avataranimals.com/animals" target="_blank" rel="noopener noreferrer">Ver mas avatares en AvatarAnimals</a>
                     </div>
                     <button class="btn btn-radix w-100" type="submit">Actualizar perfil</button>
                 </form>
             </section>
         </div>
         <div class="col-lg-8">
-            <section class="data-panel">
-                <h2 class="h4">Mis actividades</h2>
-                <div class="table-responsive">
-                    <table class="table align-middle">
-                        <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Categoria</th>
-                            <th>Respuesta</th>
-                            <th>Puntaje</th>
-                            <th>Estado</th>
-                            <th>Comentario</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <% if (actividades == null || actividades.isEmpty()) { %>
-                            <tr><td colspan="6" class="text-muted">Aun no has enviado actividades.</td></tr>
-                        <% } else {
-                            for (ActividadEstudiante a : actividades) { %>
-                                <tr>
-                                    <td><%= a.getFechaRegistro() %></td>
-                                    <td><%= a.getCategoria() %></td>
-                                    <td><%= a.getRespuesta() %></td>
-                                    <td><%= a.getPuntaje() %></td>
-                                    <td>
-                                        <% if (!a.isRevisado()) { %>
-                                            <span class="badge text-bg-warning">Pendiente</span>
-                                        <% } else if (a.isAprobado()) { %>
-                                            <span class="badge text-bg-success">Aprobado</span>
-                                        <% } else { %>
-                                            <span class="badge text-bg-danger">Observado</span>
-                                        <% } %>
-                                    </td>
-                                    <td><%= a.getComentarioAdmin() == null ? "" : a.getComentarioAdmin() %></td>
-                                </tr>
-                        <%  }
-                           } %>
-                        </tbody>
-                    </table>
+            <section class="data-panel achievements-panel">
+                <div class="achievements-head">
+                    <div>
+                        <p class="section-kicker mb-1">Progreso del estudiante</p>
+                        <h2 class="h4 mb-0">Logros</h2>
+                    </div>
+                    <span><%= logrosDesbloqueados.size() %>/<%= logros.length %> desbloqueados</span>
+                </div>
+                <div class="achievement-grid">
+                    <% for (String[] logro : logros) {
+                        int actual = Integer.parseInt(logro[3]);
+                        int meta = Integer.parseInt(logro[4]);
+                        int porcentajeLogro = meta == 0 ? 0 : Math.min(100, Math.round((actual * 100f) / meta));
+                        boolean desbloqueado = porcentajeLogro >= 100;
+                    %>
+                        <article class="achievement-card <%= desbloqueado ? "is-unlocked" : "" %>">
+                            <div class="achievement-medal"><span><%= logro[5] %></span></div>
+                            <div class="achievement-content">
+                                <div class="achievement-title-row">
+                                    <h3><%= logro[0] %></h3>
+                                    <% if (desbloqueado) { %>
+                                        <span class="achievement-badge">Logrado</span>
+                                    <% } else { %>
+                                        <span class="achievement-badge muted">En progreso</span>
+                                    <% } %>
+                                </div>
+                                <p><%= logro[1] %></p>
+                                <div class="achievement-how">
+                                    <strong>Como realizar el logro</strong>
+                                    <span><%= logro[2] %></span>
+                                </div>
+                                <div class="achievement-progress">
+                                    <div class="d-flex justify-content-between gap-2">
+                                        <small><%= actual %>/<%= meta %></small>
+                                        <small><%= porcentajeLogro %>%</small>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-animated-radix" style="width: <%= porcentajeLogro %>%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    <% } %>
                 </div>
             </section>
         </div>

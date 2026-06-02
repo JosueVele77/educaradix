@@ -42,7 +42,6 @@ public class AuthController extends HttpServlet {
         }
 
         if ("/registro".equals(path)) {
-            request.setAttribute("usuariosPublicos", usuarioDAO.listarPublicos());
             request.getRequestDispatcher("/registro.jsp").forward(request, response);
             return;
         }

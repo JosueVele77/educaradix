@@ -2,6 +2,10 @@
 <%@ page import="io.github.josuevele77.educaradix.models.Usuario" %>
 <%
     Usuario usuarioInicio = (Usuario) session.getAttribute("usuario");
+    if (usuarioInicio == null) {
+        response.sendRedirect(request.getContextPath() + "/invitado");
+        return;
+    }
 %>
 <!DOCTYPE html>
 <html lang="es">

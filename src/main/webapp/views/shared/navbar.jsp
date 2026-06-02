@@ -17,10 +17,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarRadix">
             <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-                <li class="nav-item"><a class="nav-link" href="<%= ctxNav %>/index.jsp">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="<%= usuarioNav == null ? ctxNav + "/invitado" : ctxNav + "/index.jsp" %>">Inicio</a></li>
                 <% if (usuarioNav == null) { %>
-                    <li class="nav-item"><a class="nav-link" href="<%= ctxNav %>/registro">Registro</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<%= ctxNav %>/invitado/usuarios">Invitado</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<%= ctxNav %>/registro">Crear cuenta</a></li>
                 <% } %>
                 <% if (usuarioNav != null && "ADMIN".equals(usuarioNav.getRol())) { %>
                     <li class="nav-item"><a class="nav-link" href="<%= ctxNav %>/admin/dashboard">Panel</a></li>
@@ -57,7 +56,38 @@
                         </ul>
                     </li>
                 <% } %>
+                <li class="nav-item">
+                    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar modo claro u oscuro">
+                        <span class="theme-toggle-icon" aria-hidden="true"></span>
+                        <span id="themeToggleText">Modo</span>
+                    </button>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
+<script>
+    (function () {
+        var root = document.documentElement;
+        var saved = localStorage.getItem("educaradix-theme") || "light";
+        var button = document.getElementById("themeToggle");
+        var label = document.getElementById("themeToggleText");
+        function applyTheme(theme) {
+            root.setAttribute("data-theme", theme);
+            if (label) {
+                label.textContent = theme === "dark" ? "Oscuro" : "Claro";
+            }
+            if (button) {
+                button.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+            }
+        }
+        applyTheme(saved);
+        if (button) {
+            button.addEventListener("click", function () {
+                var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+                localStorage.setItem("educaradix-theme", next);
+                applyTheme(next);
+            });
+        }
+    }());
+</script>

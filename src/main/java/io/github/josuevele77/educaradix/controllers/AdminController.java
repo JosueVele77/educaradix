@@ -28,6 +28,8 @@ public class AdminController extends HttpServlet {
         }
         if ("/usuarios".equals(path)) {
             request.setAttribute("usuarios", usuarioDAO.listarTodos());
+            request.setAttribute("progresoUsuarios", actividadDAO.contarCompletadasPorUsuario());
+            request.setAttribute("totalMisiones", 7);
             request.getRequestDispatcher("/views/admin/usuarios.jsp").forward(request, response);
             return;
         }
@@ -61,6 +63,9 @@ public class AdminController extends HttpServlet {
         request.setAttribute("actividadesPendientes", actividadDAO.contarPendientes());
         request.setAttribute("pendientes", actividadDAO.listarPendientes());
         request.setAttribute("actividades", actividadDAO.listarTodas());
+        request.setAttribute("usuarios", usuarioDAO.listarTodos());
+        request.setAttribute("progresoUsuarios", actividadDAO.contarCompletadasPorUsuario());
+        request.setAttribute("totalMisiones", 7);
         request.getRequestDispatcher("/views/admin/dashboard.jsp").forward(request, response);
     }
 

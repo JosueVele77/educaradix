@@ -3,7 +3,7 @@
     Integer misionesCompletadas = (Integer) request.getAttribute("misionesCompletadas");
     Integer totalMisiones = (Integer) request.getAttribute("totalMisiones");
     Integer progresoPorcentaje = (Integer) request.getAttribute("progresoPorcentaje");
-    int total = totalMisiones == null ? 6 : totalMisiones;
+    int total = totalMisiones == null ? 7 : totalMisiones;
     int completadas = misionesCompletadas == null ? 0 : misionesCompletadas;
     int porcentaje = progresoPorcentaje == null ? 0 : progresoPorcentaje;
 %>
@@ -74,7 +74,7 @@
             <div>
                 <p class="game-label">Retos mixtos</p>
                 <h2>Memoria y comparaciones</h2>
-                <p>Compara potencias y une expresiones con sus resultados.</p>
+                <p>Compara potencias, une expresiones y pesca bases escondidas.</p>
             </div>
             <a class="btn btn-radix" href="${pageContext.request.contextPath}/estudiante/jugar#juegos-retos">Jugar retos</a>
         </article>

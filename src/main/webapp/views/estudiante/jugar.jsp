@@ -6,7 +6,7 @@
     Integer progresoPorcentaje = (Integer) request.getAttribute("progresoPorcentaje");
     List<String> clavesCompletadas = (List<String>) request.getAttribute("clavesCompletadas");
     String claves = clavesCompletadas == null ? "" : String.join(",", clavesCompletadas);
-    int total = totalMisiones == null ? 6 : totalMisiones;
+    int total = totalMisiones == null ? 7 : totalMisiones;
     int completadas = misionesCompletadas == null ? 0 : misionesCompletadas;
     int porcentaje = progresoPorcentaje == null ? 0 : progresoPorcentaje;
 %>
@@ -35,6 +35,7 @@
                             <div id="missionProgress" class="progress-bar" style="width: <%= porcentaje %>%"></div>
                         </div>
                     </div>
+                    <div id="successToast" class="success-toast" role="status" aria-live="polite"></div>
                     <div class="hero-actions">
                         <a class="btn btn-outline-dark" href="${pageContext.request.contextPath}/estudiante/categorias">Ver categorias</a>
                         <a class="btn btn-radix" href="#juegos-potencias">Empezar</a>
@@ -67,18 +68,18 @@
                 <div class="game-copy">
                     <p class="game-label">Potencias - 2^5</p>
                     <h2>El Alimentador del Zorro 3D</h2>
-                    <p>El zorro duplica su energia con cada pocion. Dale 5 pociones y resuelve sus bocados extra.</p>
-                    <div class="game-equation"><span id="monsterValue">1</span> x 2 = energia</div>
+                    <p>El zorro gana energia con cada pocion. Completa 8 rondas cambiando base y exponente.</p>
+                    <div class="game-equation"><span id="monsterValue">1</span> x <span id="monsterBase">2</span> = energia</div>
+                    <div class="level-pill">Ronda <span id="monsterRound">1</span> de 8: <strong id="monsterGoal">2<sup>5</sup></strong></div>
+                    <div class="game-local-progress">
+                        <span>Progreso del juego</span>
+                        <div class="progress"><div class="progress-bar" id="monsterProgress"></div></div>
+                    </div>
                     <div class="game-actions">
                         <button class="btn btn-radix" id="feedMonster" type="button">Dar pocion</button>
                         <button class="btn btn-outline-dark" id="resetMonster" type="button">Reiniciar</button>
                     </div>
                     <p class="game-feedback" id="monsterFeedback">Pociones usadas: 0 de 5.</p>
-                    <div class="mini-exercises" data-mini-game="monster">
-                        <p>Bocados extra</p>
-                        <button type="button" data-answer="27" data-options="9,27,30">3^3</button>
-                        <button type="button" data-answer="25" data-options="10,20,25">5^2</button>
-                    </div>
                     <form class="activity-form" action="${pageContext.request.contextPath}/estudiante/actividad" method="post">
                         <input type="hidden" name="categoria" value="potencias">
                         <input type="hidden" name="respuesta" value="32">
@@ -96,12 +97,17 @@
                 <div class="game-copy">
                     <p class="game-label">Potencias de 10</p>
                     <h2>La Torre del Panda</h2>
-                    <p>Mueve el control y ayuda al panda a construir una torre exacta de 1000 bloques.</p>
+                    <p>Mueve el control y ayuda al panda a construir torres exactas. Completa 8 torres.</p>
                     <div class="game-equation">10^<span id="towerExponent">1</span> = <span id="towerValue">10</span></div>
-                    <div class="game-actions">
-                        <input class="form-range tower-range" id="towerRange" type="range" min="1" max="4" value="1">
+                    <div class="level-pill">Torre <span id="towerLevel">1</span> de 8: meta <strong id="towerTarget">100</strong></div>
+                    <div class="game-local-progress">
+                        <span>Progreso del juego</span>
+                        <div class="progress"><div class="progress-bar" id="towerProgress"></div></div>
                     </div>
-                    <p class="game-feedback" id="towerFeedback">Mueve el control hasta encontrar 10^3.</p>
+                    <div class="game-actions">
+                        <input class="form-range tower-range" id="towerRange" type="range" min="1" max="5" value="1">
+                    </div>
+                    <p class="game-feedback" id="towerFeedback">Mueve el control hasta encontrar la meta.</p>
                     <form class="activity-form" action="${pageContext.request.contextPath}/estudiante/actividad" method="post">
                         <input type="hidden" name="categoria" value="torre">
                         <input type="hidden" name="respuesta" value="1000">
@@ -125,18 +131,18 @@
                 <div class="game-copy">
                     <p class="game-label">Raices cuadradas - raiz de 144</p>
                     <h2>La Sombra Laser del Buho</h2>
-                    <p>El buho ilumina un cuadrado de area 144. Arrastra la regla al borde correcto y resuelve dos sombras.</p>
-                    <div class="game-equation">lado x lado = 144</div>
+                    <p>El buho ilumina cuadrados distintos. Arrastra la regla al borde correcto en cada ronda.</p>
+                    <div class="game-equation">lado x lado = <span id="laserArea">144</span></div>
+                    <div class="level-pill">Sombra <span id="laserRound">1</span> de 8</div>
+                    <div class="game-local-progress">
+                        <span>Progreso del juego</span>
+                        <div class="progress"><div class="progress-bar" id="laserProgress"></div></div>
+                    </div>
                     <div class="game-actions">
                         <button class="btn btn-outline-dark" id="resetRuler" type="button">Reiniciar regla</button>
                         <button class="btn btn-radix" id="speakRoot" type="button">Escuchar pista</button>
                     </div>
                     <p class="game-feedback" id="laserFeedback">Arrastra la regla roja sobre el borde iluminado.</p>
-                    <div class="mini-exercises" data-mini-game="laser">
-                        <p>Sombras extra</p>
-                        <button type="button" data-answer="9" data-options="6,9,18">raiz de 81</button>
-                        <button type="button" data-answer="13" data-options="11,12,13">raiz de 169</button>
-                    </div>
                     <form class="activity-form" action="${pageContext.request.contextPath}/estudiante/actividad" method="post">
                         <input type="hidden" name="categoria" value="raices">
                         <input type="hidden" name="respuesta" value="12">
@@ -151,14 +157,14 @@
                 <div class="game-copy">
                     <p class="game-label">Raices cubicas - 27^(1/3)</p>
                     <h2>La Maquina de Cubos del Conejo</h2>
-                    <p>Arrastra el bloque correcto para formar un cubo perfecto de 27. Luego calibra otros cubos.</p>
-                    <div class="game-equation">27<sup>1/3</sup> = raiz cubica de 27</div>
-                    <p class="game-feedback" id="machineFeedback">Elige el bloque que forma un cubo perfecto de 3 x 3 x 3.</p>
-                    <div class="mini-exercises" data-mini-game="machine">
-                        <p>Calibraciones extra</p>
-                        <button type="button" data-answer="4" data-options="3,4,8">raiz cubica de 64</button>
-                        <button type="button" data-answer="5" data-options="5,10,25">raiz cubica de 125</button>
+                    <p>Arrastra el bloque correcto para formar cubos perfectos. Cada ronda cambia la energia.</p>
+                    <div class="game-equation"><span id="machineTarget">27</span><sup>1/3</sup> = &#8731;<span id="machineTargetCopy">27</span></div>
+                    <div class="level-pill">Cubo <span id="machineRound">1</span> de 8</div>
+                    <div class="game-local-progress">
+                        <span>Progreso del juego</span>
+                        <div class="progress"><div class="progress-bar" id="machineProgress"></div></div>
                     </div>
+                    <p class="game-feedback" id="machineFeedback">Elige el bloque que forma un cubo perfecto de 3 x 3 x 3.</p>
                     <form class="activity-form" action="${pageContext.request.contextPath}/estudiante/actividad" method="post">
                         <input type="hidden" name="categoria" value="radicales">
                         <input type="hidden" name="respuesta" value="3">
@@ -169,7 +175,7 @@
                         <div class="robot-head"><span></span><span></span></div>
                         <div class="robot-body">
                             <div class="energy-cubes"></div>
-                            <p>27 cubos</p>
+                            <p><span id="machineCubeCount">27</span> cubos</p>
                         </div>
                     </div>
                     <div id="machineDrop" class="machine-drop">Suelta aqui</div>
@@ -193,8 +199,13 @@
                 <div class="game-copy">
                     <p class="game-label">Comparacion de potencias</p>
                     <h2>El Portal de Mayor Poder</h2>
-                    <p>Dos portales quieren abrirse. Toca la expresion con mayor energia para ayudar al guia.</p>
-                    <div class="game-equation">2^6 vs 6^2</div>
+                    <p>Dos portales quieren abrirse. Toca la expresion con mayor energia en cada ronda.</p>
+                    <div class="game-equation" id="compareEquation">2<sup>6</sup> vs 6<sup>2</sup></div>
+                    <div class="level-pill">Ronda <span id="compareRound">1</span> de 8</div>
+                    <div class="game-local-progress">
+                        <span>Progreso del juego</span>
+                        <div class="progress"><div class="progress-bar" id="compareProgress"></div></div>
+                    </div>
                     <p class="game-feedback" id="compareFeedback">Compara 64 contra 36 antes de tocar un portal.</p>
                     <form class="activity-form" action="${pageContext.request.contextPath}/estudiante/actividad" method="post">
                         <input type="hidden" name="categoria" value="comparaciones">
@@ -202,8 +213,8 @@
                     </form>
                 </div>
                 <div class="game-visual portal-visual">
-                    <button class="portal-choice" type="button" data-correct="true"><span>2^6</span><strong>64</strong></button>
-                    <button class="portal-choice" type="button" data-correct="false"><span>6^2</span><strong>36</strong></button>
+                    <button class="portal-choice" type="button"><span>2<sup>6</sup></span><strong>64</strong></button>
+                    <button class="portal-choice" type="button"><span>6<sup>2</sup></span><strong>36</strong></button>
                 </div>
             </article>
 
@@ -211,8 +222,13 @@
                 <div class="game-copy">
                     <p class="game-label">Memoria matematica</p>
                     <h2>El Mapa de Pares Secretos</h2>
-                    <p>Une cada expresion con su resultado. Las cartas cambian de color cuando haces una pareja.</p>
+                    <p>Une cada expresion con su resultado. Sube hasta el nivel 10 con pares nuevos.</p>
                     <div class="game-equation">expresion = resultado</div>
+                    <div class="level-pill">Nivel <span id="memoryLevel">1</span> de 10</div>
+                    <div class="game-local-progress">
+                        <span>Progreso del juego</span>
+                        <div class="progress"><div class="progress-bar" id="memoryProgress"></div></div>
+                    </div>
                     <p class="game-feedback" id="memoryFeedback">Selecciona una carta de expresion y luego su resultado.</p>
                     <form class="activity-form" action="${pageContext.request.contextPath}/estudiante/actividad" method="post">
                         <input type="hidden" name="categoria" value="memoria">
@@ -220,16 +236,38 @@
                     </form>
                 </div>
                 <div class="game-visual memory-board" id="memoryBoard">
-                    <button type="button" data-pair="a">2^3</button>
-                    <button type="button" data-pair="b">raiz de 49</button>
-                    <button type="button" data-pair="c">4^2</button>
-                    <button type="button" data-pair="a">8</button>
-                    <button type="button" data-pair="b">7</button>
-                    <button type="button" data-pair="c">16</button>
+                </div>
+            </article>
+
+            <article class="game-card lake-card kid-card" id="lakeGame" data-complete-key="laguna=2">
+                <div class="game-copy">
+                    <p class="game-label">Bases escondidas</p>
+                    <h2>La Laguna de los Peces</h2>
+                    <p>El lago muestra un resultado. Pesca el numero que multiplicado por si mismo las veces indicadas forma ese resultado.</p>
+                    <div class="game-equation"><span id="lakeBaseHint">? x ? x ?</span> = <span id="lakeTarget">8</span></div>
+                    <div class="level-pill">Pez <span id="lakeRound">1</span> de 8</div>
+                    <div class="game-local-progress">
+                        <span>Progreso del juego</span>
+                        <div class="progress"><div class="progress-bar" id="lakeProgress"></div></div>
+                    </div>
+                    <p class="game-feedback" id="lakeFeedback">Busca el pez con el numero 2.</p>
+                    <form class="activity-form" action="${pageContext.request.contextPath}/estudiante/actividad" method="post">
+                        <input type="hidden" name="categoria" value="laguna">
+                        <input type="hidden" name="respuesta" value="2">
+                    </form>
+                </div>
+                <div class="game-visual lake-visual" id="lakeVisual">
+                    <div class="lake-water" data-target="8">
+                        <button class="fish fish-a" type="button"></button>
+                        <button class="fish fish-b" type="button"></button>
+                        <button class="fish fish-c" type="button"></button>
+                        <button class="fish fish-d" type="button"></button>
+                    </div>
                 </div>
             </article>
         </div>
     </section>
+    <div id="gameSignal" class="game-signal" aria-live="polite" aria-hidden="true"></div>
 </main>
 <jsp:include page="/views/shared/footer.jsp"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
