@@ -7,13 +7,11 @@ import io.github.josuevele77.educaradix.models.PasswordUtil;
 import io.github.josuevele77.educaradix.models.Usuario;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/admin/*")
 public class AdminController extends HttpServlet {
     private final UsuarioDAO usuarioDAO = new UsuarioDAO();
     private final ActividadDAO actividadDAO = new ActividadDAO();

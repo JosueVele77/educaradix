@@ -6,7 +6,6 @@ import io.github.josuevele77.educaradix.models.PasswordUtil;
 import io.github.josuevele77.educaradix.models.Usuario;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-@WebServlet({"/login", "/registro", "/logout"})
 public class AuthController extends HttpServlet {
     private static final Pattern EMAIL_VALIDO = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
     private final UsuarioDAO usuarioDAO = new UsuarioDAO();

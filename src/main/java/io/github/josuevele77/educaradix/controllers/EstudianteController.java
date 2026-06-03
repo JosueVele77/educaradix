@@ -9,7 +9,6 @@ import io.github.josuevele77.educaradix.models.PasswordUtil;
 import io.github.josuevele77.educaradix.models.Usuario;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +16,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-@WebServlet("/estudiante/*")
 public class EstudianteController extends HttpServlet {
     private static final int TOTAL_MISIONES = 7;
     private static final String AVATAR_BASE = "https://images.avataranimals.com/animals/transparent/";

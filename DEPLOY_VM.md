@@ -3,7 +3,7 @@
 Este proyecto genera el archivo `educaradix.war` y se conecta por defecto a:
 
 ```text
-jdbc:postgresql://172.17.42.121:5432/BD_educa
+jdbc:postgresql://172.17.42.121:5432/DB_educa
 usuario: postgres
 clave: 1234
 ```
@@ -61,7 +61,7 @@ http://IP_DE_LA_VM:8080/educaradix/
 Si se necesita apuntar a otra base, configurar estas variables antes de iniciar Tomcat:
 
 ```bash
-export EDUCARADIX_DB_URL="jdbc:postgresql://172.17.42.121:5432/BD_educa"
+export EDUCARADIX_DB_URL="jdbc:postgresql://172.17.42.121:5432/DB_educa"
 export EDUCARADIX_DB_USER="postgres"
 export EDUCARADIX_DB_PASSWORD="1234"
 ```
@@ -73,4 +73,4 @@ Verificar en el servidor de base de datos:
 - PostgreSQL escucha en la red, no solo en `localhost`.
 - El puerto `5432` esta abierto en firewall.
 - `pg_hba.conf` permite conexiones desde la IP de la VM.
-- La base `BD_educa` tiene las tablas `usuarios`, `bitacora` y `actividades_estudiante`.
+- La base `DB_educa` tiene las tablas `usuarios`, `bitacora` y `actividades_estudiante`.

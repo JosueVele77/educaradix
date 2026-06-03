@@ -7,6 +7,68 @@
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
+
+    <servlet>
+        <servlet-name>AuthController</servlet-name>
+        <servlet-class>io.github.josuevele77.educaradix.controllers.AuthController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AuthController</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AuthController</servlet-name>
+        <url-pattern>/registro</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AuthController</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>VisitanteController</servlet-name>
+        <servlet-class>io.github.josuevele77.educaradix.controllers.VisitanteController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VisitanteController</servlet-name>
+        <url-pattern>/invitado</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VisitanteController</servlet-name>
+        <url-pattern>/invitado/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminController</servlet-name>
+        <servlet-class>io.github.josuevele77.educaradix.controllers.AdminController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminController</servlet-name>
+        <url-pattern>/admin/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EstudianteController</servlet-name>
+        <servlet-class>io.github.josuevele77.educaradix.controllers.EstudianteController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EstudianteController</servlet-name>
+        <url-pattern>/estudiante/*</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>io.github.josuevele77.educaradix.controllers.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/estudiante/*</url-pattern>
+    </filter-mapping>
+
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>

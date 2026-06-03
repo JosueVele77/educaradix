@@ -5,11 +5,11 @@
 -- 1. Abrir una terminal en esta carpeta.
 -- 2. Ejecutar:
 --      psql -U postgres -f educaradix_db.sql
--- 3. El script crea la base BD_educa si no existe, se conecta y
+-- 3. El script crea la base DB_educa si no existe, se conecta y
 --    prepara tablas, indices y usuarios iniciales.
 --
 -- Credenciales esperadas por la aplicacion:
---   Base de datos: BD_educa
+--   Base de datos: DB_educa
 --   Usuario: postgres
 --   Clave: 1234
 --
@@ -18,15 +18,15 @@
 -- ============================================================
 
 -- Crea la base de datos solo si falta. Esta instruccion usa comandos de psql.
-SELECT 'CREATE DATABASE "BD_educa"'
+SELECT 'CREATE DATABASE "DB_educa"'
 WHERE NOT EXISTS (
     SELECT 1
     FROM pg_database
-    WHERE datname = 'BD_educa'
+    WHERE datname = 'DB_educa'
 )\gexec
 
 -- A partir de aqui todo se ejecuta dentro de la base usada por la aplicacion.
-\connect "BD_educa"
+\connect "DB_educa"
 
 -- Usuarios del sistema: administradores y estudiantes.
 CREATE TABLE IF NOT EXISTS usuarios (
