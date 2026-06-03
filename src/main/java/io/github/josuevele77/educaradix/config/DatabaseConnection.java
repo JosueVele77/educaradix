@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    private static final String URL = valueOrDefault("EDUCARADIX_DB_URL", "jdbc:postgresql://localhost:5432/educaradix");
+    private static final String URL = valueOrDefault("EDUCARADIX_DB_URL", "jdbc:postgresql://172.17.42.121:5432/BD_educa");
     private static final String USER = valueOrDefault("EDUCARADIX_DB_USER", "postgres");
-    private static final String PASSWORD = valueOrDefault("EDUCARADIX_DB_PASSWORD", "root");
+    private static final String PASSWORD = valueOrDefault("EDUCARADIX_DB_PASSWORD", "1234");
 
     // Constructor privado para evitar que instancien la clase.
     private DatabaseConnection() {}
